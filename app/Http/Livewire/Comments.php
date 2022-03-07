@@ -15,10 +15,10 @@ class Comments extends Component
 
     public $newComment;
     public $image;
-    public $ticketId ;
+    public $ticketId;
 
     protected $listeners = [
-        'fileUpload'     => 'handleFileUpload',
+        'fileUpload' => 'handleFileUpload',
         'ticketSelected',
     ];
 
@@ -32,6 +32,7 @@ class Comments extends Component
         $this->image = $imageData;
     }
 
+    //realtime validation
     public function updated($field)
     {
         $this->validateOnly($field, ['newComment' => 'required|max:255']);
@@ -40,14 +41,19 @@ class Comments extends Component
     public function addComment()
     {
         $this->validate(['newComment' => 'required|max:255']);
-        $image          = $this->storeImage();
+
+        $image = $this->storeImage();
+
         $createdComment = Comment::create([
-            'body'              => $this->newComment, 'user_id' => 1,
-            'image'             => $image,
+            'body' => $this->newComment,
+            'user_id' => 1,
+            'image' => $image,
             'support_ticket_id' => $this->ticketId,
         ]);
-        $this->newComment = '';
-        $this->image      = '';
+
+        $this->newComment = '';//clearing the input field after the comment is added
+        $this->image = '';
+
         session()->flash('message', 'Comment added successfully 😁');
     }
 
@@ -57,8 +63,8 @@ class Comments extends Component
             return null;
         }
 
-        $img   = ImageManagerStatic::make($this->image)->encode('jpg');
-        $name  = Str::random() . '.jpg';
+        $img = ImageManagerStatic::make($this->image)->encode('jpg');
+        $name = Str::random() . '.jpg';
         Storage::disk('public')->put($name, $img);
         return $name;
     }
@@ -66,9 +72,18 @@ class Comments extends Component
     public function remove($commentId)
     {
         $comment = Comment::find($commentId);
+
         Storage::disk('public')->delete($comment->image);
+
         $comment->delete();
+
         session()->flash('message', 'Comment deleted successfully 😊');
+    }
+
+    //called as soon as the component is loaded
+    public function mount(){
+//        $initialComments = Comment::all();
+//        $this->comments = $initialComments;
     }
 
     public function render()
