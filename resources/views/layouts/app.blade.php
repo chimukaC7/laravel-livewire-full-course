@@ -14,6 +14,7 @@
 </head>
 
 <body class="flex flex-wrap justify-center">
+
 <div class="flex w-full justify-between px-4 bg-purple-900 text-white">
     <a class="mx-3 py-4" href="/">Home</a>
     @auth
@@ -28,7 +29,7 @@
 </div>
 
 <div class="my-10 w-full flex justify-center">
-{{--    compoents are pushed to the yield--}}
+    {{--    compoents are pushed to the yield--}}
     @yield('content')
 </div>
 
