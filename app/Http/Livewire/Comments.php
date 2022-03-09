@@ -19,17 +19,30 @@ class Comments extends Component
 
     protected $listeners = [
         'fileUpload' => 'handleFileUpload',
-        'ticketSelected',
+        'ticketSelected',//when you have the same name for the event and the function, you just list one
     ];
 
     public function ticketSelected($ticketId)
     {
+        //$this->ticketId = $ticketId;
         $this->ticketId = $ticketId;
     }
 
     public function handleFileUpload($imageData)
     {
-        $this->image = $imageData;
+        $this->image = $imageData;//base64 format
+    }
+
+    public function storeImage(): ?string
+    {
+        if (!$this->image) {
+            return null;
+        }
+
+        $img = ImageManagerStatic::make($this->image)->encode('jpg');
+        $name = Str::random() . '.jpg';
+        Storage::disk('public')->put($name, $img);
+        return $name;
     }
 
     //realtime validation
@@ -57,17 +70,7 @@ class Comments extends Component
         session()->flash('message', 'Comment added successfully 😁');
     }
 
-    public function storeImage()
-    {
-        if (!$this->image) {
-            return null;
-        }
 
-        $img = ImageManagerStatic::make($this->image)->encode('jpg');
-        $name = Str::random() . '.jpg';
-        Storage::disk('public')->put($name, $img);
-        return $name;
-    }
 
     public function remove($commentId)
     {

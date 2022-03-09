@@ -13,12 +13,15 @@
 </head>
 
 <body class="flex justify-center">
+
     <div class="w-10/12 my-10 flex">
+
         <div class="w-5/12 rounded border p-2">
             {{-- to include any livewire component you use the following --}}
 {{--            @livewire('counter')--}}
             <livewire:tickets />
         </div>
+
         <div class="w-7/12 mx-2 rounded border p-2">
 {{--            @livewire('comments')--}}
             <livewire:comments />
@@ -26,6 +29,7 @@
 {{--            <livewire:comments comments="I am props coming from welcome page"/>--}}
 {{--            <livewire:comments :comments="$comments"/>--}}
         </div>
+
     </div>
 
 </body>

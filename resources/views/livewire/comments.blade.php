@@ -15,6 +15,8 @@
         @if($image)
             <img src={{$image}} width="200"/>
         @endif
+
+        {{--emit an event--}}
         <input type="file" id="image" wire:change="$emit('fileChoosen')">
     </section>
 
@@ -60,6 +62,8 @@
         let inputField = document.getElementById('image')
         let file = inputField.files[0]
         let reader = new FileReader();
+
+        //when the loading is ended
         reader.onloadend = () => {
             window.livewire.emit('fileUpload', reader.result)
         }
