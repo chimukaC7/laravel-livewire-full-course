@@ -19,7 +19,8 @@ class Login extends Component
             'form.password' => 'required',
         ]);
 
-        Auth::attempt($this->form);
+        Auth::attempt($this->form);//login the user
+
         return redirect(route('home'));
     }
 

@@ -17,6 +17,7 @@
 
 <div class="flex w-full justify-between px-4 bg-purple-900 text-white">
     <a class="mx-3 py-4" href="/">Home</a>
+    {{-- if user is authenticated user --}}
     @auth
         <livewire:logout/>
     @endauth
